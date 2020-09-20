@@ -1,15 +1,37 @@
-## Put comments here that give an overall description of what your
-## functions do
+# This function creates an empty argument (futinvmat) to cache the inverse, 
+#Sets which the inverse of x is and assigns it to futinvmat
 
-## Write a short comment describing this function
+        makeCacheMatrix <- function(x = matrix()) {
+                futinvmat <- NULL
+                set <- function(y) {
+                        x <<- y
+                        futinvmat<<- NULL
+                }
+                get <- function() {x}
+                setinverse <- function(solve) futinvmat <<- solve
+                getinverse <- function() futinvmat
+                list(set = set, get = get,
+                     setinverse = setinverse,
+                     getinverse = getinverse)
+        }
+        
+        
 
-makeCacheMatrix <- function(x = matrix()) {
-
-}
 
 
-## Write a short comment describing this function
+#Tracks the inverse of the matrix saved in futinvmat after showing 
+#a message that informs it is being getting from the cache
+
+
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-}
+        futinvmat <- x$getinverse()
+           if(!is.null(futinvmat)) {
+           message("getting cached data")
+           return(futinvmat)
+             }
+           data <- x$get()
+           futinvmat <- solve(data, ...)
+           x$setinverse(futinvmat)
+          futinvmat
+        }
